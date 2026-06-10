@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+
+
+/* GSAP classes */
+.gsap {
+  visibility: hidden;
+}
