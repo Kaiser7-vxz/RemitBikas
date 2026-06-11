@@ -1,10 +1,33 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, HandHeart, UserCircle, Home, Building2, TrendingUp, PieChart, Newspaper, Bot, Info, UserPlus } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { HandHeart, UserCircle, Home, Building2, TrendingUp, PieChart, Newspaper, Info, UserPlus, LogOut, MessageSquare } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+function readStoredUser() {
+  const storedUser = localStorage.getItem('user');
+  if (!storedUser) return null;
+
+  try {
+    return JSON.parse(storedUser);
+  } catch {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    return null;
+  }
+}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  // Re-read auth state on route changes (e.g. after login/logout redirect).
+  void location.pathname;
+  const user = readStoredUser();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +43,7 @@ export default function Navbar() {
     { name: 'Invest', path: '/invest', icon: TrendingUp },
     { name: 'Transparency', path: '/transparency', icon: PieChart },
     { name: 'Suchana Board', path: '/suchana', icon: Newspaper },
+    { name: 'Community', path: '/community', icon: MessageSquare },
     { name: 'About Us', path: '/about', icon: Info },
   ];
 
@@ -51,10 +75,30 @@ export default function Navbar() {
               })}
             </div>
             
-            <Link to="/login" className="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5">
-              <UserCircle className="w-5 h-5" />
-              <span>Login / Register</span>
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold text-gray-700">{user.name}</span>
+                <Link
+                  to={['ADMIN', 'MUNICIPAL_OFFICER'].includes(user.role) ? '/admin/dashboard' : '/user/dashboard'}
+                  className="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-4 py-2.5 rounded-xl text-sm font-bold transition-all"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5">
+                <UserCircle className="w-5 h-5" />
+                <span>Login / Register</span>
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -1,0 +1,372 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          UserRole  @default(CITIZEN)
+  phone         String?
+  avatar        String?
+  verified      Boolean   @default(false)
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  contributions Contribution[]
+  reviews       ProjectReview[]
+  reports       Report[]
+  notifications Notification[]
+  communityMessages CommunityMessage[]
+
+  @@index([email])
+  @@index([role])
+}
+
+enum UserRole {
+  CITIZEN
+  CONTRACTOR
+  MUNICIPAL_OFFICER
+  ADMIN
+}
+
+model Project {
+  id              String      @id @default(cuid())
+  title           String
+  description     String
+  type            ProjectType
+  status          ProjectStatus @default(PLANNING)
+  totalBudget     Float
+  spentBudget     Float       @default(0)
+  location        String
+  latitude        Float?
+  longitude       Float?
+  startDate       DateTime
+  expectedEndDate DateTime
+  actualEndDate   DateTime?
+  completionPercentage Int   @default(0)
+  fundingCollected Float     @default(0)
+  fundingTarget   Float?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  contractor      String?
+  contractorContact String?
+
+  milestones      Milestone[]
+  contributions   Contribution[]
+  expenses        Expense[]
+  reviews         ProjectReview[]
+  attachments     Attachment[]
+  reports         Report[]
+  delayAnalysis   DelayAnalysis?
+  reputationScore ReputationScore?
+
+  @@index([status])
+  @@index([type])
+}
+
+enum ProjectType {
+  INFRASTRUCTURE
+  EDUCATION
+  HEALTHCARE
+  UTILITIES
+  ENVIRONMENT
+  ENERGY
+  TECHNOLOGY
+  AGRICULTURE
+}
+
+enum ProjectStatus {
+  PLANNING
+  TENDER
+  ONGOING
+  COMPLETED
+  SUSPENDED
+  CANCELLED
+}
+
+model Milestone {
+  id            String      @id @default(cuid())
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?
+  targetDate    DateTime
+  completedDate DateTime?
+  status        MilestoneStatus @default(PENDING)
+  completionPercentage Int @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([projectId])
+  @@index([status])
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  DELAYED
+  CANCELLED
+}
+
+model Contribution {
+  id            String      @id @default(cuid())
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Float
+  description   String?
+  paymentMethod PaymentMethod
+  transactionId String?
+  status        ContributionStatus @default(PENDING)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([projectId])
+  @@index([userId])
+  @@index([status])
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  MOBILE_WALLET
+  CREDIT_CARD
+  CASH
+}
+
+enum ContributionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+model Expense {
+  id            String      @id @default(cuid())
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  description   String
+  amount        Float
+  category      ExpenseCategory
+  date          DateTime    @default(now())
+  voucher       String?
+  verifiedBy    String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([projectId])
+  @@index([category])
+}
+
+enum ExpenseCategory {
+  LABOR
+  MATERIALS
+  EQUIPMENT
+  TRANSPORTATION
+  ADMINISTRATION
+  OTHER
+}
+
+model ProjectReview {
+  id            String      @id @default(cuid())
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating        Int         // 1-5 stars
+  comment       String?
+  isAnonymous   Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([projectId])
+  @@index([userId])
+  @@unique([projectId, userId])
+}
+
+model Attachment {
+  id            String      @id @default(cuid())
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  filename      String
+  url           String
+  type          AttachmentType
+  uploadedAt    DateTime    @default(now())
+
+  @@index([projectId])
+}
+
+enum AttachmentType {
+  IMAGE
+  DOCUMENT
+  BLUEPRINT
+  PROGRESS_PHOTO
+  CERTIFICATE
+  OTHER
+}
+
+model Report {
+  id            String      @id @default(cuid())
+  projectId     String
+  project       Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  reportedBy    String
+  user          User        @relation(fields: [reportedBy], references: [id], onDelete: Cascade)
+  reason        ReportReason
+  description   String?
+  status        ReportStatus @default(OPEN)
+  resolvedAt    DateTime?
+  createdAt     DateTime    @default(now())
+
+  @@index([projectId])
+  @@index([status])
+}
+
+enum ReportReason {
+  FRAUD
+  MISUSE_OF_FUNDS
+  POOR_QUALITY
+  SAFETY_ISSUE
+  ENVIRONMENTAL_CONCERN
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+  CLOSED
+  REJECTED
+}
+
+model Notification {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          NotificationType
+  title         String
+  message       String
+  link          String?
+  read          Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+
+  @@index([userId])
+  @@index([read])
+}
+
+enum NotificationType {
+  PROJECT_UPDATE
+  MILESTONE_COMPLETED
+  NEW_CONTRIBUTION
+  CONTRIBUTION_APPROVED
+  URGENT_ALERT
+  SYSTEM
+}
+
+model DelayAnalysis {
+  id              String      @id @default(cuid())
+  projectId       String      @unique
+  project         Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  originalEndDate DateTime
+  currentEndDate  DateTime
+  delayDays       Int
+  delayPercentage Float
+  reasons         String[]
+  analysis        String?
+  riskLevel       RiskLevel
+  recommendations String[]
+  lastUpdated     DateTime    @updatedAt
+
+  @@index([projectId])
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model ReputationScore {
+  id              String      @id @default(cuid())
+  projectId       String      @unique
+  project         Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  score           Float       @default(100) // 0-100
+  transparency    Float       @default(100)
+  timeliness      Float       @default(100)
+  budgetAccuracy  Float       @default(100)
+  publicTrust     Float       @default(100)
+  lastUpdated     DateTime    @updatedAt
+
+  @@index([projectId])
+}
+
+model QRCode {
+  id            String      @id @default(cuid())
+  projectId     String
+  code          String      @unique
+  data          Json
+  createdAt     DateTime    @default(now())
+
+  @@index([projectId])
+}
+
+model CommunityMessage {
+  id          String   @id @default(cuid())
+  content     String
+  authorId    String?
+  authorName  String   @default("Anonymous")
+  isFlagged   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  author      User?    @relation(fields: [authorId], references: [id])
+
+  @@index([createdAt])
+}
+
+model Complaint {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String
+  status      ComplaintStatus @default(OPEN)
+  submittedBy String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+}
+
+enum ComplaintStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model ProjectComment {
+  id          String   @id @default(cuid())
+  projectId   String   // Soft-link to support frontend mock data
+  content     String
+  authorId    String?
+  authorName  String   @default("Anonymous")
+  likes       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([projectId])
+  @@index([createdAt])
+}

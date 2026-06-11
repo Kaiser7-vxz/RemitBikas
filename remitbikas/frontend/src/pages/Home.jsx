@@ -129,7 +129,7 @@ export default function Home() {
                          <div className="flex-1">
                            <div className="h-4 w-24 bg-gray-200 rounded animate-pulse mb-2" />
                            <div className="h-2 w-full bg-gray-200 rounded overflow-hidden">
-                             <div className="h-full bg-emerald-500 rounded" style={{ width: `${Math.random() * 40 + 30}%` }} />
+                             <div className="h-full bg-emerald-500 rounded" style={{ width: `${30 + (i * 13) % 40}%` }} />
                            </div>
                          </div>
                        </div>

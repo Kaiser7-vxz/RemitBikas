@@ -1,9 +1,10 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Doughnut, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement
 } from 'chart.js';
-import { BarChart3, FileText, CheckCircle, Clock, PieChart, LineChart, DollarSign, ClipboardCheck, Scale, Database, Bell, Mail, BarChart } from 'lucide-react';
+import { BarChart3, FileText, CheckCircle, Clock, PieChart, LineChart, DollarSign, ClipboardCheck, Scale, Database, Mail, BarChart, X, Download, FileCheck, Shield, ChevronRight } from 'lucide-react';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Title, Tooltip, Legend);
 
@@ -25,14 +26,83 @@ const expData = {
 };
 
 const contracts = [
-  { id: 'CT-2025-001', name: 'Sundarijal Flyover', vendor: 'Shivam Construction', amount: '₨ 12.2M', status: 'Ongoing', statusColor: 'bg-green-100 text-green-700', audit: 'View' },
-  { id: 'CT-2025-008', name: 'Janak Secondary School', vendor: 'Everest Builders', amount: '₨ 8.5M', status: 'Active', statusColor: 'bg-amber-100 text-amber-700', audit: 'View' },
-  { id: 'CT-2025-012', name: 'Drinking Water Scheme', vendor: 'Hydro Solutions Ltd', amount: '₨ 22.3M', status: 'Ongoing', statusColor: 'bg-green-100 text-green-700', audit: 'View' },
-  { id: 'CT-2024-045', name: 'Ward 2 Road Asphalt', vendor: 'Nepal Paving Corp', amount: '₨ 4.25M', status: 'Completed', statusColor: 'bg-blue-100 text-blue-700', audit: 'Final' },
-  { id: 'CT-2025-023', name: 'Community Hospital Upgrade', vendor: 'MediBuild Intl', amount: '₨ 9.8M', status: 'Tender', statusColor: 'bg-purple-100 text-purple-700', audit: 'Pending' }
+  { 
+    id: 'CT-2025-001', name: 'Sundarijal Flyover', vendor: 'Shivam Construction', amount: '₨ 12.2M', status: 'Ongoing', statusColor: 'bg-green-100 text-green-700', audit: 'View',
+    auditDetails: {
+      budgetUtilized: 68,
+      totalBudget: '₨ 12,200,000',
+      spent: '₨ 8,296,000',
+      documents: [
+        { title: 'Initial Environmental Examination', date: '2024-05-12', type: 'PDF' },
+        { title: 'Tender Award Verification', date: '2024-06-01', type: 'PDF' },
+        { title: 'Q1 Financial Audit Report', date: '2024-10-15', type: 'XLSX' }
+      ],
+      timeline: [
+        { date: 'Jun 2024', event: 'Contract Awarded & Initial 20% Fund Released' },
+        { date: 'Oct 2024', event: 'Foundation Completed. Q1 Audit Passed.' },
+        { date: 'Jan 2025', event: '30% Milestone Fund Released. Pillar works ongoing.' }
+      ],
+      complianceScore: 94
+    }
+  },
+  { 
+    id: 'CT-2025-008', name: 'Janak Secondary School', vendor: 'Everest Builders', amount: '₨ 8.5M', status: 'Active', statusColor: 'bg-amber-100 text-amber-700', audit: 'View',
+    auditDetails: {
+      budgetUtilized: 35,
+      totalBudget: '₨ 8,500,000',
+      spent: '₨ 2,975,000',
+      documents: [
+        { title: 'School Committee Approval', date: '2024-08-20', type: 'PDF' },
+        { title: 'Material Quality Verification', date: '2024-11-05', type: 'PDF' }
+      ],
+      timeline: [
+        { date: 'Sep 2024', event: 'Contract Signed. Site clearing begun.' },
+        { date: 'Dec 2024', event: 'Foundation laid. 35% funds released.' }
+      ],
+      complianceScore: 98
+    }
+  },
+  { 
+    id: 'CT-2025-012', name: 'Drinking Water Scheme', vendor: 'Hydro Solutions Ltd', amount: '₨ 22.3M', status: 'Ongoing', statusColor: 'bg-green-100 text-green-700', audit: 'View',
+    auditDetails: {
+      budgetUtilized: 52,
+      totalBudget: '₨ 22,300,000',
+      spent: '₨ 11,596,000',
+      documents: [
+        { title: 'Water Source Feasibility Study', date: '2024-01-10', type: 'PDF' },
+        { title: 'Pipeline Procurement Invoice', date: '2024-07-22', type: 'PDF' }
+      ],
+      timeline: [
+        { date: 'Jul 2024', event: 'Initial Pipeline Procured.' },
+        { date: 'Nov 2024', event: 'First 5km completed. Audit verified.' }
+      ],
+      complianceScore: 91
+    }
+  },
+  { 
+    id: 'CT-2024-045', name: 'Ward 2 Road Asphalt', vendor: 'Nepal Paving Corp', amount: '₨ 4.25M', status: 'Completed', statusColor: 'bg-blue-100 text-blue-700', audit: 'Final',
+    auditDetails: {
+      budgetUtilized: 100,
+      totalBudget: '₨ 4,250,000',
+      spent: '₨ 4,250,000',
+      documents: [
+        { title: 'Final Project Completion Report', date: '2024-12-20', type: 'PDF' },
+        { title: 'Independent Quality Test', date: '2024-12-25', type: 'PDF' }
+      ],
+      timeline: [
+        { date: 'Dec 2024', event: 'Project formally handed over to Municipality.' }
+      ],
+      complianceScore: 99
+    }
+  },
+  { 
+    id: 'CT-2025-023', name: 'Community Hospital Upgrade', vendor: 'MediBuild Intl', amount: '₨ 9.8M', status: 'Tender', statusColor: 'bg-purple-100 text-purple-700', audit: 'Pending',
+    auditDetails: null
+  }
 ];
 
 export default function TransparencyDashboard() {
+  const [selectedAudit, setSelectedAudit] = useState(null);
   return (
     <div>
       {/* HERO */}
@@ -96,7 +166,7 @@ export default function TransparencyDashboard() {
             {[
               { label: 'Total Inflow', val: '₨ 146.2M' },
               { label: 'Project Allocation', val: '₨ 58.4M' },
-              { label: 'Community Invest', val: '₨ 32.8M' },
+              { label: 'Community Fund', val: '₨ 32.8M' },
               { label: 'Overhead', val: '₨ 4.2M' }
             ].map((item, i) => (
               <div key={i} className="bg-emerald-50 rounded-2xl p-6 text-center">
@@ -139,7 +209,17 @@ export default function TransparencyDashboard() {
                     <td className="p-5 text-sm text-gray-600">{c.vendor}</td>
                     <td className="p-5 text-sm font-bold text-emerald-700">{c.amount}</td>
                     <td className="p-5"><span className={`px-3 py-1 rounded-full text-xs font-bold ${c.statusColor}`}>{c.status}</span></td>
-                    <td className="p-5 text-sm font-bold text-emerald-600 hover:text-emerald-800 cursor-pointer">{c.audit}</td>
+                    <td className="p-5">
+                      {c.auditDetails ? (
+                        <button onClick={() => setSelectedAudit(c)} className="flex items-center gap-1.5 text-sm font-bold text-emerald-600 hover:text-emerald-800 transition-colors">
+                          <FileCheck className="w-4 h-4" /> View Audit
+                        </button>
+                      ) : (
+                        <span className="text-sm font-bold text-gray-400 flex items-center gap-1.5 cursor-not-allowed">
+                          <Clock className="w-4 h-4" /> Pending
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -198,6 +278,90 @@ export default function TransparencyDashboard() {
           </div>
         </div>
       </section>
+      {/* AUDIT MODAL */}
+      <AnimatePresence>
+        {selectedAudit && selectedAudit.auditDetails && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedAudit(null)} className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm" />
+            
+            <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="bg-white rounded-3xl w-full max-w-4xl relative z-10 overflow-hidden shadow-2xl flex flex-col max-h-[90vh] my-auto">
+              <div className="p-8 border-b border-gray-100 flex justify-between items-start bg-gray-50/50">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">{selectedAudit.id}</span>
+                    <span className="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1"><Shield className="w-3 h-3" /> Score: {selectedAudit.auditDetails.complianceScore}/100</span>
+                  </div>
+                  <h2 className="text-3xl font-extrabold text-gray-900">{selectedAudit.name}</h2>
+                  <p className="text-gray-500 font-medium mt-1">Vendor: {selectedAudit.vendor}</p>
+                </div>
+                <button onClick={() => setSelectedAudit(null)} className="bg-white hover:bg-gray-100 text-gray-600 p-2 rounded-full transition-colors shadow-sm border border-gray-200">
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="p-8 overflow-y-auto flex-1 bg-white">
+                {/* Financial Overview */}
+                <div className="mb-10">
+                  <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2"><DollarSign className="w-6 h-6 text-emerald-600" /> Financial Overview</h3>
+                  <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                    <div className="flex justify-between items-end mb-3">
+                      <div>
+                        <p className="text-sm text-gray-500 font-bold uppercase tracking-wider mb-1">Total Budget</p>
+                        <p className="text-2xl font-black text-gray-900">{selectedAudit.auditDetails.totalBudget}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500 font-bold uppercase tracking-wider mb-1">Expended</p>
+                        <p className="text-2xl font-black text-emerald-700">{selectedAudit.auditDetails.spent}</p>
+                      </div>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-4 mb-2 overflow-hidden shadow-inner">
+                      <div className="bg-emerald-500 h-4 rounded-full transition-all duration-1000" style={{ width: `${selectedAudit.auditDetails.budgetUtilized}%` }}></div>
+                    </div>
+                    <p className="text-right text-sm font-bold text-emerald-700">{selectedAudit.auditDetails.budgetUtilized}% Utilized</p>
+                  </div>
+                </div>
+
+                {/* Timeline */}
+                <div className="mb-10">
+                  <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2"><Clock className="w-6 h-6 text-emerald-600" /> Funding & Progress Timeline</h3>
+                  <div className="space-y-6 pl-4 border-l-2 border-emerald-200 ml-3">
+                    {selectedAudit.auditDetails.timeline.map((item, idx) => (
+                      <div key={idx} className="relative">
+                        <div className="absolute -left-[23px] top-1 w-3 h-3 bg-emerald-500 rounded-full border-4 border-white shadow-sm ring-2 ring-emerald-200"></div>
+                        <p className="text-sm font-bold text-emerald-600 mb-1">{item.date}</p>
+                        <p className="text-gray-700 font-medium bg-gray-50 p-4 rounded-xl border border-gray-100">{item.event}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Documents */}
+                <div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2"><FileText className="w-6 h-6 text-emerald-600" /> Verification Documents</h3>
+                  <div className="grid gap-4">
+                    {selectedAudit.auditDetails.documents.map((doc, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/50 transition-all group cursor-pointer bg-white shadow-sm">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-xs ${doc.type === 'PDF' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
+                            {doc.type}
+                          </div>
+                          <div>
+                            <p className="font-bold text-gray-800 group-hover:text-emerald-700 transition-colors">{doc.title}</p>
+                            <p className="text-xs text-gray-500 font-medium">Uploaded: {doc.date}</p>
+                          </div>
+                        </div>
+                        <button className="text-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-emerald-100 rounded-full">
+                          <Download className="w-5 h-5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

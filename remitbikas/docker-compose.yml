@@ -1,0 +1,128 @@
+version: '3.8'
+
+# ============================================================
+# Production Environment Docker Compose Configuration
+# ============================================================
+# Usage: docker-compose up -d
+# Features:
+#  - Production-grade containers
+#  - Health checks
+#  - Restart policies
+#  - Resource limits
+#  - Optimized builds
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: remitbikas_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-remitbikas}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-remitbikas123}
+      POSTGRES_DB: ${DB_NAME:-remitbikas}
+      POSTGRES_INITDB_ARGS: "-c shared_buffers=256MB -c max_connections=200"
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    networks:
+      - remitbikas_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U remitbikas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: remitbikas_backend
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgresql://${DB_USER:-remitbikas}:${DB_PASSWORD:-remitbikas123}@postgres:5432/${DB_NAME:-remitbikas}
+      JWT_SECRET: ${JWT_SECRET:-your_super_secret_jwt_key_change_this_in_production}
+      JWT_EXPIRY: 7d
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000,http://localhost:5173}
+      UPLOAD_DIR: /app/uploads
+      MAX_FILE_SIZE: 10485760
+    ports:
+      - "5000:5000"
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - remitbikas_network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Frontend Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: remitbikas_frontend
+    environment:
+      NODE_ENV: production
+      VITE_API_URL: ${API_URL:-http://localhost:5000/api}
+    ports:
+      - "3000:3000"
+    volumes:
+      - frontend_data:/app/dist
+    depends_on:
+      - backend
+    networks:
+      - remitbikas_network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  postgres_data:
+    driver: local
+  backend_uploads:
+    driver: local
+  frontend_data:
+    driver: local
+
+networks:
+  remitbikas_network:
+    driver: bridge

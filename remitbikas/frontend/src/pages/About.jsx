@@ -76,7 +76,7 @@ export default function About() {
                 <span className="text-emerald-600"> Real Impact</span>
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                We believe that every rupee sent home by a Nepali abroad should have the power to build schools, roads, and hospitals — not just cover daily expenses. Our mission is to create a trust-by-design ecosystem where diaspora contributions are transparently and directly invested in verifiable infrastructure milestones.
+                We believe that every rupee sent home by a Nepali abroad should have the power to build schools, roads, and hospitals — not just cover daily expenses. Our mission is to create a trust-by-design ecosystem where diaspora contributions are transparently and directly funded in verifiable infrastructure milestones.
               </p>
               <ul className="space-y-4">
                 {[
@@ -95,7 +95,7 @@ export default function About() {
 
             <motion.div {...fadeUp(0.2)} className="space-y-6">
               {[
-                { icon: Target, title: 'Targeted Investment', desc: 'Funds flow directly to verified project phases, not general government budgets.', color: 'bg-emerald-50 text-emerald-700' },
+                { icon: Target, title: 'Targeted Funding', desc: 'Funds flow directly to verified project phases, not general government budgets.', color: 'bg-emerald-50 text-emerald-700' },
                 { icon: Eye, title: 'Full Transparency', desc: 'Every transaction, contract, and audit report is publicly accessible on our platform.', color: 'bg-teal-50 text-teal-700' },
                 { icon: ShieldCheck, title: 'Accountability First', desc: 'AI-verified milestone completion before any funds are released from escrow.', color: 'bg-blue-50 text-blue-700' },
                 { icon: Leaf, title: 'Sustainable Growth', desc: 'Long-term community development over short-term household consumption.', color: 'bg-green-50 text-green-700' },
@@ -128,7 +128,7 @@ export default function About() {
             {[
               { icon: AlertTriangle, color: 'bg-red-50 text-red-600', title: 'Lack of Transparency', desc: 'Most of the remittance money flowing to Nepal goes to household consumption with no oversight into how government project funds are actually spent.', stat: '72%', statLabel: 'spent on consumption' },
               { icon: Building2, color: 'bg-orange-50 text-orange-600', title: 'Weak Infrastructure', desc: 'Local municipalities suffer from chronic underfunding, project delays, cost overruns, and paper-based reporting that leaves no digital audit trail.', stat: '60%', statLabel: 'projects face delays' },
-              { icon: Globe, color: 'bg-amber-50 text-amber-600', title: 'Diaspora Distrust', desc: 'Overseas Nepalis want to invest in their homeland but are discouraged by lack of accountability, no visibility into fund use, and zero return on civic investment.', stat: '$9B', statLabel: 'untapped potential' },
+              { icon: Globe, color: 'bg-amber-50 text-amber-600', title: 'Diaspora Distrust', desc: 'Overseas Nepalis want to fund their homeland but are discouraged by lack of accountability, no visibility into fund use, and zero return on civic funding.', stat: '$9B', statLabel: 'untapped potential' },
             ].map((item, i) => (
               <motion.div key={i} {...fadeUp(i * 0.15)} className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className={`${item.color} w-14 h-14 rounded-2xl flex items-center justify-center mb-6`}>
@@ -162,7 +162,7 @@ export default function About() {
               <div className="hidden md:block absolute top-10 left-10 right-10 h-0.5 bg-emerald-700" />
               <div className="grid md:grid-cols-4 gap-8">
                 {[
-                  { step: '01', icon: Banknote, title: 'Diaspora Invests', desc: 'Overseas Nepalis send remittances or buy municipal bonds through our secure co-investment portal.' },
+                  { step: '01', icon: Banknote, title: 'Diaspora Funds', desc: 'Overseas Nepalis send remittances or buy municipal bonds through our secure co-funding portal.' },
                   { step: '02', icon: ShieldCheck, title: 'Funds Go to Escrow', desc: 'Money is held in a smart milestone-linked escrow — no release until progress is independently verified.' },
                   { step: '03', icon: BarChart3, title: 'AI Verifies Progress', desc: 'Our AI assistant validates milestone completion using site reports, images, and official contractor data.' },
                   { step: '04', icon: CheckCircle, title: 'Funds Released', desc: 'Once a milestone is verified, the corresponding tranche is released directly to the contractor.' },
@@ -187,17 +187,17 @@ export default function About() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <motion.span {...fadeUp(0)} className="text-emerald-600 text-sm font-bold uppercase tracking-widest mb-4 block">Platform Features</motion.span>
-            <motion.h2 {...fadeUp(0.1)} className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Everything You Need to Invest Confidently</motion.h2>
-            <motion.p {...fadeUp(0.2)} className="text-gray-600 text-lg">Purpose-built tools for both overseas investors and local governance bodies.</motion.p>
+            <motion.h2 {...fadeUp(0.1)} className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Everything You Need to Fund Confidently</motion.h2>
+            <motion.p {...fadeUp(0.2)} className="text-gray-600 text-lg">Purpose-built tools for both overseas funders and local governance bodies.</motion.p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
-              { icon: Lightbulb, title: 'Co-Investment Portal', desc: 'A digital marketplace where diaspora can browse and invest in specific local projects with full transparency.', tag: 'Investing' },
+              { icon: Lightbulb, title: 'Co-Funding Portal', desc: 'A digital marketplace where diaspora can browse and fund specific local projects with full transparency.', tag: 'Funding' },
               { icon: ShieldCheck, title: 'Milestone Escrow', desc: 'Smart contract-style fund release tied to verified construction or service delivery milestones.', tag: 'Security' },
               { icon: Eye, title: 'Transparency Dashboard', desc: 'Real-time tracking of every rupee — from inflow to expenditure — with public audit reports.', tag: 'Transparency' },
               { icon: BarChart3, title: 'Suchana Board', desc: 'Official digital notice board for tenders, public hearings, press releases, and civic announcements.', tag: 'Governance' },
-              { icon: TrendingUp, title: 'Municipal Bonds', desc: 'Invest in government-backed municipal bonds and earn competitive returns while developing infrastructure.', tag: 'Finance' },
+              { icon: TrendingUp, title: 'Municipal Bonds', desc: 'Fund government-backed municipal bonds and earn competitive returns while developing infrastructure.', tag: 'Finance' },
               { icon: Zap, title: 'AI Oversight', desc: 'AI-assisted verification of project progress using field reports, photos, and contractor submissions.', tag: 'AI' },
             ].map((feature, i) => (
               <motion.div key={i} {...fadeUp(i * 0.1)} className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all group">
@@ -263,7 +263,7 @@ export default function About() {
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
-              { icon: Star, title: 'Trust First', desc: 'Every feature, every policy, every decision is designed to maximise the trust of both investors and citizens.', color: 'from-emerald-700 to-teal-700' },
+              { icon: Star, title: 'Trust First', desc: 'Every feature, every policy, every decision is designed to maximise the trust of both funders and citizens.', color: 'from-emerald-700 to-teal-700' },
               { icon: Globe, title: 'Community Driven', desc: 'We are for Nepal, by Nepalis. Decisions are participatory, and our data is always open to citizens.', color: 'from-teal-700 to-cyan-700' },
               { icon: Zap, title: 'Innovation at Scale', desc: 'We use technology — AI, smart contracts, real-time data — to solve centuries-old governance problems.', color: 'from-emerald-800 to-emerald-600' },
             ].map((val, i) => (
@@ -334,7 +334,7 @@ export default function About() {
                   <label className="block text-sm font-bold text-gray-700 mb-1.5">Subject</label>
                   <select className="w-full border border-gray-200 rounded-xl px-4 py-3.5 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-shadow font-medium">
                     <option value="">Select a topic</option>
-                    <option value="invest">I want to invest</option>
+                    <option value="fund">I want to fund</option>
                     <option value="partnership">Partnership inquiry</option>
                     <option value="government">Government / Municipality</option>
                     <option value="media">Media inquiry</option>

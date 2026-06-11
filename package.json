@@ -1,10 +1,28 @@
 {
   "name": "remitbikas-root",
   "version": "1.0.0",
+  "description": "RemitBikas - Municipal Project Transparency Platform",
   "private": true,
   "scripts": {
-    "dev": "npm run dev --prefix remitbikas/frontend",
-    "build": "npm run build --prefix remitbikas/frontend",
-    "install:frontend": "npm install --prefix remitbikas/frontend"
+    "install:all": "npm install --prefix remitbikas/frontend && npm install --prefix remitbikas/backend",
+    "dev": "concurrently \"npm run dev --prefix remitbikas/backend\" \"npm run dev --prefix remitbikas/frontend\"",
+    "dev:frontend": "npm run dev --prefix remitbikas/frontend",
+    "dev:backend": "npm run dev --prefix remitbikas/backend",
+    "build": "npm run build --prefix remitbikas/frontend && npm run build --prefix remitbikas/backend",
+    "build:frontend": "npm run build --prefix remitbikas/frontend",
+    "build:backend": "npm run build --prefix remitbikas/backend",
+    "start:frontend": "npm start --prefix remitbikas/frontend",
+    "start:backend": "npm start --prefix remitbikas/backend",
+    "docker:up": "docker-compose -f remitbikas/docker-compose.yml up -d",
+    "docker:down": "docker-compose -f remitbikas/docker-compose.yml down",
+    "docker:logs": "docker-compose -f remitbikas/docker-compose.yml logs -f",
+    "db:migrate": "npm run prisma:migrate --prefix remitbikas/backend",
+    "db:seed": "npm run prisma:seed --prefix remitbikas/backend",
+    "db:studio": "npm run prisma:studio --prefix remitbikas/backend",
+    "lint": "npm run lint --prefix remitbikas/frontend && npm run lint --prefix remitbikas/backend",
+    "setup": "npm run install:all && npm run db:setup --prefix remitbikas/backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

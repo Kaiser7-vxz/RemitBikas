@@ -18,7 +18,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Transforming remittances into transparent community investments. Building a trust-by-design infrastructure for Nepal's future.
+              Transforming remittances into transparent community funding. Building a trust-by-design infrastructure for Nepal's future.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-emerald-600 hover:text-white transition-all">
@@ -37,7 +37,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-6">Platform</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition text-sm">Co-Investment Portal</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition text-sm">Co-Funding Portal</a></li>
               <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition text-sm">Escrow System (Kista)</a></li>
               <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition text-sm">Digital Suchana Board</a></li>
               <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition text-sm">Transparency Reports</a></li>

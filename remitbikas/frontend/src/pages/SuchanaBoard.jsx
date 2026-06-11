@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Newspaper, Megaphone, FileText, Calendar, Download, Star, MapPin, Clock, Eye, Gavel, FileOutput, UserCheck, FolderOpen, Bell, Send, TrendingUp, Handshake } from 'lucide-react';
+import { Newspaper, Megaphone, FileText, Calendar, Download, MapPin, Clock, Eye, Gavel, FileOutput, UserCheck, FolderOpen, Bell, Send, TrendingUp, Handshake } from 'lucide-react';
 
 const notices = [
   { id: 1, type: 'notice', category: 'Public Notice', title: 'Water Supply Disruption Schedule', desc: 'Maintenance work on main pipeline. Water supply will be disrupted on August 20-21 in Wards 2,3,4.', date: '2 days ago', views: '1,284', icon: Megaphone, color: 'blue' },
@@ -9,7 +9,7 @@ const notices = [
   { id: 4, type: 'press', category: 'Press Release', title: 'Remittance Inflow Reaches All-Time High', desc: 'Q2 remittance crosses ₨ 56.2M, marking 14.2% year-on-year growth. Infrastructure spending up 22%.', date: '3 days ago', source: 'Official Statement', icon: TrendingUp, color: 'green' },
   { id: 5, type: 'notice', category: 'Public Notice', title: 'Tax Payment Deadline Extension', desc: 'Property tax deadline extended to September 15, 2025. No late fee applicable until then.', date: '1 week ago', source: 'Tax Notice', icon: Megaphone, color: 'blue' },
   { id: 6, type: 'tender', category: 'Tender Notice', title: 'Solar Street Light Installation', desc: 'Tender for 200 solar street lights in rural wards. Bid deadline: September 10, 2025.', date: '4 days ago', budget: 'Est. ₨ 12.5M', icon: Gavel, color: 'amber' },
-  { id: 7, type: 'event', category: 'Event', title: 'Investor Meetup: Infrastructure Bonds', desc: 'Connect with municipal officials and explore investment opportunities in local bonds.', date: '6 days ago', dateInfo: 'Sep 5, 2025', icon: Handshake, color: 'purple' },
+  { id: 7, type: 'event', category: 'Event', title: 'Funder Meetup: Infrastructure Bonds', desc: 'Connect with municipal officials and explore funding opportunities in local bonds.', date: '6 days ago', dateInfo: 'Sep 5, 2025', icon: Handshake, color: 'purple' },
   { id: 8, type: 'press', category: 'Press Release', title: 'New Municipal Chairman Elected', desc: 'Mr. Krishna Prasad Sharma assumes office with focus on transparency and digital governance.', date: '2 weeks ago', source: 'Leadership', icon: UserCheck, color: 'green' },
 ];
 

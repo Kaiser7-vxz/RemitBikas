@@ -32,7 +32,7 @@ const barData = {
   labels: ['2021', '2022', '2023', '2024', '2025'],
   datasets: [
     { label: 'Remittance Inflow', data: [182, 210, 245, 278, 312], backgroundColor: '#0d9488', borderRadius: 4 },
-    { label: 'Local Investment', data: [68, 85, 112, 148, 186], backgroundColor: '#f59e0b', borderRadius: 4 }
+    { label: 'Local Funding', data: [68, 85, 112, 148, 186], backgroundColor: '#f59e0b', borderRadius: 4 }
   ]
 };
 
@@ -43,13 +43,13 @@ export default function CoInvestmentPortal() {
       <section className="relative bg-gradient-to-r from-emerald-900 to-teal-800 text-white pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden">
         <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold mb-5 border border-white/10">
-            <TrendingUp className="w-4 h-4"/> Investment Opportunities
+            <TrendingUp className="w-4 h-4"/> Funding Opportunities
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight">
-            Invest in <span className="text-emerald-300">Nepal's Growth</span>
+            Fund <span className="text-emerald-300">Nepal's Growth</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-emerald-100 text-lg md:text-xl mt-6 max-w-2xl mx-auto leading-relaxed">
-            Discover remittance-backed bonds, infrastructure projects, and government-secured investment options with transparent returns.
+            Discover remittance-backed bonds, infrastructure projects, and government-secured funding options with transparent returns.
           </motion.p>
         </div>
       </section>
@@ -59,9 +59,9 @@ export default function CoInvestmentPortal() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {[
             { icon: TrendingUp, val: '12.8%', label: 'Avg. Returns (FY)' },
-            { icon: Coins, val: '₨ 58.4M', label: 'Active Investments' },
+            { icon: Coins, val: '₨ 58.4M', label: 'Active Funding' },
             { icon: Building2, val: '24', label: 'Projects Funded' },
-            { icon: Users, val: '3,248', label: 'Active Investors' }
+            { icon: Users, val: '3,248', label: 'Active Funders' }
           ].map((stat, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + (i * 0.1) }} className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100 text-center">
               <stat.icon className="w-8 h-8 md:w-10 md:h-10 text-emerald-600 mx-auto mb-3" />
@@ -75,7 +75,7 @@ export default function CoInvestmentPortal() {
       {/* CHARTS */}
       <section className="container mx-auto px-6 py-20">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3"><PieChart className="w-8 h-8 text-emerald-600"/> Investment Performance</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3"><PieChart className="w-8 h-8 text-emerald-600"/> Funding Performance</h2>
           <p className="text-gray-500 text-lg">Real-time analytics on remittance growth and project returns</p>
         </div>
         <div className="grid md:grid-cols-2 gap-8">
@@ -90,7 +90,7 @@ export default function CoInvestmentPortal() {
         </div>
       </section>
 
-      {/* INVESTMENT CARDS */}
+      {/* FUNDING CARDS */}
       <section className="bg-gray-50 py-20 border-t border-gray-100">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
@@ -114,7 +114,7 @@ export default function CoInvestmentPortal() {
                     <span className="font-black text-emerald-700 text-2xl">{bond.return}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-500 font-medium">Min. Investment</span>
+                    <span className="text-gray-500 font-medium">Min. Fund</span>
                     <span className="font-bold text-gray-900">₨ {bond.min}</span>
                   </div>
                   <div className="flex justify-between items-center pb-6">
@@ -122,7 +122,7 @@ export default function CoInvestmentPortal() {
                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${bond.riskColor}`}>{bond.risk}</span>
                   </div>
                   <button className="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-4 rounded-xl font-bold transition-colors shadow-md">
-                    Invest Now
+                    Fund Now
                   </button>
                 </div>
               </motion.div>
@@ -134,7 +134,7 @@ export default function CoInvestmentPortal() {
       {/* CORRELATION */}
       <section className="container mx-auto px-6 py-20">
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100 max-w-4xl mx-auto">
-          <h3 className="font-bold text-2xl text-gray-900 mb-8 text-center">Remittance vs. Investment Correlation</h3>
+          <h3 className="font-bold text-2xl text-gray-900 mb-8 text-center">Remittance vs. Funding Correlation</h3>
           <div className="h-72"><Bar data={barData} options={{ maintainAspectRatio: false }} /></div>
         </div>
       </section>
@@ -144,8 +144,8 @@ export default function CoInvestmentPortal() {
         <div className="max-w-4xl mx-auto rounded-[3rem] bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-12 text-center shadow-2xl relative overflow-hidden">
           <div className="relative z-10">
             <ShieldCheck className="w-16 h-16 mx-auto mb-6 text-emerald-300" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Start Investing Today</h2>
-            <p className="text-emerald-100 text-lg mb-10 max-w-lg mx-auto">Join thousands of investors building Nepal's future with secure, transparent, and rewarding options.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Start Funding Today</h2>
+            <p className="text-emerald-100 text-lg mb-10 max-w-lg mx-auto">Join thousands of funders building Nepal's future with secure, transparent, and rewarding options.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button className="bg-white text-emerald-800 px-8 py-4 rounded-xl font-bold hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2">
                 <UserPlus className="w-5 h-5"/> Create Account

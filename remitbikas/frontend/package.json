@@ -1,5 +1,5 @@
 {
-  "name": "tmp_vite",
+  "name": "remitbikas-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,11 +14,15 @@
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.6",
+    "react-leaflet": "^5.0.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.17.0",
+    "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

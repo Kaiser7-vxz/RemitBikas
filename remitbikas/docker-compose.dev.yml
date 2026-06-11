@@ -1,0 +1,118 @@
+version: '3.8'
+
+# ============================================================
+# Development Environment Docker Compose Configuration
+# ============================================================
+# Usage: docker-compose -f docker-compose.dev.yml up
+# Features:
+#  - Hot reload for both backend and frontend
+#  - Volume mounts for live code editing
+#  - Development database
+#  - Exposed ports for debugging
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: remitbikas_dev_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-remitbikas}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-remitbikas123}
+      POSTGRES_DB: ${DB_NAME:-remitbikas}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - remitbikas_dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U remitbikas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Backend API Server (Development)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: remitbikas_dev_backend
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DATABASE_URL: postgresql://${DB_USER:-remitbikas}:${DB_PASSWORD:-remitbikas123}@postgres:5432/${DB_NAME:-remitbikas}
+      JWT_SECRET: ${JWT_SECRET:-dev_secret_key_change_in_production}
+      CORS_ORIGIN: http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount source code for hot reload
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      # Don't mount node_modules
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - remitbikas_dev_network
+    restart: unless-stopped
+
+  # Frontend Application (Development)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: remitbikas_dev_frontend
+    environment:
+      VITE_API_URL: /api
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    volumes:
+      # Mount source code for hot reload
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      # Don't mount node_modules
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - remitbikas_dev_network
+    restart: unless-stopped
+
+volumes:
+  postgres_dev_data:
+    driver: local
+
+networks:
+  remitbikas_dev_network:
+    driver: bridge
+
+# ============================================================
+# Commands:
+# ============================================================
+# Start all services:
+#   docker-compose -f docker-compose.dev.yml up
+#
+# Start in background:
+#   docker-compose -f docker-compose.dev.yml up -d
+#
+# View logs:
+#   docker-compose -f docker-compose.dev.yml logs -f
+#
+# View logs of specific service:
+#   docker-compose -f docker-compose.dev.yml logs -f backend
+#
+# Stop services:
+#   docker-compose -f docker-compose.dev.yml down
+#
+# Seed database:
+#   docker-compose -f docker-compose.dev.yml exec backend npm run db:seed
+#
+# Run migrations:
+#   docker-compose -f docker-compose.dev.yml exec backend npm run db:migrate
+#
+# Access database:
+#   docker-compose -f docker-compose.dev.yml exec postgres psql -U remitbikas -d remitbikas
