@@ -1,10 +1,10 @@
-# 🇳🇵 RemitBikas 
+# 🇳🇵 RemitBikas_iicquest
 > Empowering communities through transparent municipal project tracking and decentralized crowdfunding.
 
 ---
 
 ## 👥 Team Information
-**Team Name:** Team Aims 
+**Team Name:** Team Aims_iicquest
 
 **Team Members:**
 - Sashmit Bhandari
