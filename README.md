@@ -3,17 +3,6 @@
 
 ---
 
-## 👥 Team Information
-**Team Name:** Team Aims_iicquest
-
-**Team Members:**
-- Sashmit Bhandari
-- Aparajita Rokaha
-- Aayush Karki
-- Anajana Basnet
-
----
-
 ## ⚠️ Problem Statement
 In many developing municipalities, there is a significant **lack of transparency** regarding public infrastructure and development projects. Citizens often have no visibility into how funds are allocated, causing a breakdown in trust between local governments and the community. 
 
