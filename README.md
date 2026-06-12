@@ -28,11 +28,11 @@ Furthermore, the **diaspora and emigrant workers** often wish to invest in or do
 The platform allows municipal officers to publish local development projects with clearly defined budgets, timelines, and milestones. Citizens can then view these projects, track their real-time progress, and directly **crowdfund** them via integrated payment portals (like eSewa or Khalti). 
 
 ### Key Features
-- **📊 Transparency Dashboard:** Visualizes financial tracking, expense breakdowns, and overall progress of municipal projects.
-- **💸 Crowdfunding (Invest Portal):** Allows users to securely fund specific projects via multiple payment methods.
-- **🗺️ Interactive Project Mapping:** Geolocation tracking of ongoing projects using interactive maps.
-- **🤖 AI Assistant Widget:** An integrated AI bot powered by Google GenAI to answer citizen queries regarding municipal processes, budgets, or project statuses.
-- **👨‍⚖️ Admin & Municipal Dashboard:** Comprehensive management interfaces for projects, citizens, investments, and analytics.
+- ** Transparency Dashboard:** Visualizes financial tracking, expense breakdowns, and overall progress of municipal projects.
+- ** Crowdfunding (Invest Portal):** Allows users to securely fund specific projects via multiple payment methods.
+- ** Interactive Project Mapping:** Geolocation tracking of ongoing projects using interactive maps.
+- ** AI Assistant Widget:** An integrated AI bot powered by Google GenAI to answer citizen queries regarding municipal processes, budgets, or project statuses.
+- ** Admin & Municipal Dashboard:** Comprehensive management interfaces for projects, citizens, investments, and analytics.
 
 ### Expected Outcomes
 - Rebuilt trust between citizens and local governance.
@@ -43,12 +43,12 @@ The platform allows municipal officers to publish local development projects wit
 
 ## 🛠️ Tech Stack
 
-### 💻 Programming Languages
+### Programming Languages
 - TypeScript
 - JavaScript (ES6+)
 - HTML5 / CSS3
 
-### 🎨 Frontend Frameworks/Libraries
+###  Frontend Frameworks/Libraries
 - **React 19** (UI Library)
 - **Vite** (Build Tool)
 - **Tailwind CSS v4** (Styling)
@@ -56,24 +56,24 @@ The platform allows municipal officers to publish local development projects wit
 - **Leaflet & React-Leaflet** (Interactive Maps)
 - **Chart.js** (Data Visualization)
 
-### ⚙️ Backend Frameworks/Libraries
+###  Backend Frameworks/Libraries
 - **Node.js** (Runtime)
 - **Express.js** (Web Framework)
 - **Prisma** (ORM)
 - **Socket.io** (Real-time updates)
 - **JSON Web Tokens (JWT)** (Authentication)
 
-### 🗄️ Database
+### Database
 - **PostgreSQL 16**
 
-### 🔌 APIs Used
+###  APIs Used
 - **Google GenAI API** (For the interactive AI assistant)
 - **OpenStreetMap / Mapbox** (Map Tiles)
 
-### 🧠 AI/ML Technologies
+### AI/ML Technologies
 - **Google Gemini** (Underlying model for the chatbot widget and predictive delay analytics)
 
-### 🚀 DevOps & Deployment Tools
+### DevOps & Deployment Tools
 - **Docker** & **Docker Compose**
 - **Nginx** (Reverse Proxy)
 
@@ -172,14 +172,14 @@ remitbikas/
 
 ---
 
-## 🤖 AI Tools Used
+##  AI Tools Used
 During the development of RemitBikas, the following AI tools were leveraged:
 - **Google Gemini / Google DeepMind Agent:** Used extensively for architectural design, code generation, debugging complex React state issues, and generating structured documentation.
 - **Google GenAI API:** Integrated directly into the application code to power the `AIBotWidget`, providing contextual assistance to citizens navigating the platform.
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 - **Live Payment Gateway Integration:** Transition from simulated wallets to live merchant APIs (e.g., eSewa, Khalti, Stripe) with webhook callbacks.
 - **Automated PDF Reports:** Implement server-side generation of tax receipts and municipal transparency reports using Puppeteer.
 - **Email Notifications:** Hook up Nodemailer with an active SMTP server to send transactional emails (e.g., contribution receipts, milestone updates).
@@ -192,7 +192,7 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 
 ---
 
-## 🙏 Acknowledgements
+##  Acknowledgements
 - A massive thank you to all mentors and open-source contributors.
 - UI inspiration drawn from modern GovTech interfaces.
 - Placeholder imagery provided by Unsplash and various external public sources.
