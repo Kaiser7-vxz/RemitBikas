@@ -28,11 +28,11 @@ Furthermore, the **diaspora and emigrant workers** often wish to invest in or do
 The platform allows municipal officers to publish local development projects with clearly defined budgets, timelines, and milestones. Citizens can then view these projects, track their real-time progress, and directly **crowdfund** them via integrated payment portals (like eSewa or Khalti). 
 
 ### Key Features
-- ** Transparency Dashboard:** Visualizes financial tracking, expense breakdowns, and overall progress of municipal projects.
-- ** Crowdfunding (Invest Portal):** Allows users to securely fund specific projects via multiple payment methods.
-- ** Interactive Project Mapping:** Geolocation tracking of ongoing projects using interactive maps.
-- ** AI Assistant Widget:** An integrated AI bot powered by Google GenAI to answer citizen queries regarding municipal processes, budgets, or project statuses.
-- ** Admin & Municipal Dashboard:** Comprehensive management interfaces for projects, citizens, investments, and analytics.
+-  Transparency Dashboard: Visualizes financial tracking, expense breakdowns, and overall progress of municipal projects.
+-  Crowdfunding (Invest Portal): Allows users to securely fund specific projects via multiple payment methods.
+-  Interactive Project Mapping: Geolocation tracking of ongoing projects using interactive maps.
+-  AI Assistant Widget: An integrated AI bot powered by Google GenAI to answer citizen queries regarding municipal processes, budgets, or project statuses.
+- Admin & Municipal Dashboard: Comprehensive management interfaces for projects, citizens, investments, and analytics.
 
 ### Expected Outcomes
 - Rebuilt trust between citizens and local governance.
